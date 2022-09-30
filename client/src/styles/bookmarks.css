@@ -1,0 +1,27 @@
+.text {
+    font-size: calc(128 / 1440 * 100vw);
+    text-align: center;
+}
+
+.bookmark {
+    position: relative;
+
+    width: calc(361 / 1440 * 100vw);
+    height: calc(136 / 1440 * 100vw);
+
+    border-radius: var(--sm-radius);
+    font-size: var(--md-font-size);
+    
+    left: 50%;
+    transform: translateX(-50%);
+    
+
+    font-family: var(--Jost);
+
+    border: 0;
+    margin: 0;
+    margin-top: calc(56 / 1440 * 100vw);
+
+    background-color: var(--light-blue);
+    color: white;
+}

@@ -1,0 +1,63 @@
+:root {
+    --black: #1E1B18;
+    --white: #FFFAFF;
+    --blue: #0A2463;
+    --light-blue: #3E92CC;
+
+    --lg-font-size: calc(96 / 1440 * 100vw);
+    --md-font-size: calc(48 / 1440 * 100vw);
+    --sm-font-size: calc(36 / 1440 * 100vw);
+    
+    --Jost: 'Jost', sans-serif;
+
+    --md-radius: calc(32 / 1440 * 100vw);
+    --sm-radius: calc(16 / 1440 * 100vw);
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+
+    background-color: var(--black);
+    color: var(--white);
+
+    font-family: var(--Jost);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - (150 / 1440 * 100vw));
+    margin-inline: auto;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+}
+
+.nav-title {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    font-size: var(--md-font-size);
+    height: calc(98 / 1440 * 100vw);
+}
+
+.text {
+    width: calc(100% - (210 / 1440 * 100vw));
+    
+    margin-top: calc(70 / 1440 * 100vw);
+    margin-inline: auto;
+    
+    font-size: var(--lg-font-size);
+    z-index: -1;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: var(--white);
+}
