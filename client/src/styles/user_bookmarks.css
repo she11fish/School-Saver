@@ -1,0 +1,34 @@
+div:has(>ul) {
+    display: grid;
+
+    align-items: center;
+    /* justify-items: auto; */
+
+    grid-template-columns: 2fr 1fr;
+
+    width: calc(100% - (150 / 1440 * 100vw));
+
+    margin: 0;
+    margin-top: calc(88 / 1440 * 100vw);
+    margin-inline: auto;
+}
+
+.delete {
+    justify-self: right;
+
+    width: calc(198 / 1440 * 100vw);
+    height: calc(77 / 1440 * 100vw);
+    
+    outline: 0;
+    border: 0;
+
+    border-radius: var(--sm-radius);
+
+    background-color: var(--red);
+
+    margin-right: calc(40 / 1440 * 100vw);
+
+    font-size: calc(42 / 1440 * 100vw);
+
+    color: white;
+}

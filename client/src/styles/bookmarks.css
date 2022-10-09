@@ -3,6 +3,28 @@
     text-align: center;
 }
 
+ul, li {
+    width: 100%;
+    margin: 0;
+
+}
+
+ul {
+    display: inline;
+    font-size: var(--lg-font-size);
+    vertical-align: top;
+    font-weight: bold;
+}
+
+li {
+    position: relative;
+    font-size: calc(64 / 1440 * 100vw);
+    margin-top: calc(34 / 1440 * 100vw);
+    margin-bottom: calc(34 / 1440 * 100vw);
+    left: calc(165 / 1440 * 100vw);
+}
+
+
 .bookmark {
     position: relative;
 

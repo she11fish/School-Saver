@@ -1,0 +1,64 @@
+.sm-box {
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: space-evenly;
+    align-items: center;
+
+    width: calc(410 / 1440 * 100vw);
+    height: calc(461 / 1440 * 100vw);
+
+    background-color: var(--white);
+
+    border-radius: calc(32 / 1440 * 100vw);
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 10;
+}
+
+.confirmation-button {
+    position: relative;
+    font-size: calc(32 / 1440 * 100vw);
+
+    width: calc(160 / 1440 * 100vw);
+    height: calc(80 / 1440 * 100vw);
+
+    border-radius: var(--sm-radius);
+
+    border: 0;
+    outline: 0;
+    padding: 0;
+    color: white;
+}
+
+.no-button {
+    background-color: var(--red);
+}
+
+.yes-button {
+    margin-left: calc(30 / 1440 * 100vw);
+    background-color: var(--green);
+}
+
+.sm-box > div:first-child {
+    color: black;
+    font-size: var(--md-font-size);
+    text-align: center;
+}
+
+.modal-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    opacity: 25%;
+    z-index: 5;
+}

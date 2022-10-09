@@ -1,24 +1,22 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import Bookmark from "../components/Bookmark/bookmark"
+import { useState, useEffect } from "react"
+import NoBookmarks from "../components/Bookmark/NoBookmarks";
+import UserBookmarks from "../components/Bookmark/UserBookmarks";
+import { containsBookmarks } from "../utils/util"
 
 export default function Bookmarks() {
-    const [addBookmarks, setAddBookmarks] = useState(false)
+    
+    const [hasBookmarks, setHasBookmarks] = useState<boolean | null>(null)
 
-    import("../styles/bookmarks.css")
+    const id = 2;
+
+    useEffect(() => {
+        (async () => {
+            setHasBookmarks(await containsBookmarks(id))
+        })()
+    })
+
     return (
-        <>
-            <nav>
-                <div className="nav-title">Home</div>
-                <Link to="/notes"><div className="nav-title">Notes</div></Link>
-                <div className="nav-title" onClick={() => { setAddBookmarks(true) }}>Bookmarks</div>
-                <div className="nav-title">Sign in</div>
-                <div className="nav-title">Sign up</div>
-            </nav>
-            <div className="line"></div>
-            <div className="text">The page feels empty. Want to add more bookmarks?</div>
-            <button className="bookmark">Add Bookmark</button>
-            { addBookmarks && <Bookmark /> }
-        </>
+        (hasBookmarks === false) ? <NoBookmarks /> : 
+            (hasBookmarks === true) ? <UserBookmarks id={id} /> : null
     )
 }
