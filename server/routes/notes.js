@@ -1,14 +1,15 @@
 import express from 'express'
+// import { getAllNotes } from '../controllers/controller'
 const notesRouter = express.Router()
 
-notesRouter.get("/")
+// notesRouter.get("/", getAllNotes)
 
-notesRouter.get("/:id")
+// notesRouter.get("/:id", getNotes)
 
-notesRouter.post("/")
+// notesRouter.post("/", createNotes)
 
-notesRouter.patch("/:id")
+// notesRouter.patch("/:id", updateNotes)
 
-notesRouter.delete("/:id")
+// notesRouter.delete("/:id", deleteNotes)
 
 export default notesRouter
