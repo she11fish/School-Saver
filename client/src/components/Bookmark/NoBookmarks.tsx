@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import Navbar from "../Navbar/navbar"
 import Bookmark from "./AddBookmark"
 
 export default function NotEnoughBookmarks() {
@@ -10,17 +11,10 @@ export default function NotEnoughBookmarks() {
 
     return (
         <>
-        <nav>
-            <div className="nav-title">Home</div>
-            <Link to="/notes"><div className="nav-title">Notes</div></Link>
-            <div className="nav-title">Bookmarks</div>
-            <div className="nav-title">Sign in</div>
-            <div className="nav-title">Sign up</div>
-        </nav>
-        <div className="line"></div>
-        <div className="text">The page feels empty. Want to add more row?</div>
-        <button className="bookmark" onClick={() => { setAddBookmarks(true) }}>Add Bookmark</button>
-        { addBookmarks && <Bookmark /> }
+            <Navbar />
+            <div className="text">The page feels empty. Want to add more bookmarks?</div>
+            <button className="add-bookmark" onClick={() => { setAddBookmarks(true) }}>Add Bookmark</button>
+            { addBookmarks && <Bookmark /> }
         </>
     )
 }

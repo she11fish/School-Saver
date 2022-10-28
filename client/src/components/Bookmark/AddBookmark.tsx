@@ -8,7 +8,7 @@ export default function Bookmark () {
     const [bookmark, setBookmark] = useState("")
     const [link, setLink] = useState("")
 
-    import("../../styles/bookmark.css");
+    import("../../styles/add_bookmark.css");
 
     function handleSubmit(event: React.MouseEvent<HTMLFormElement, MouseEvent>) {
         addBookmark(event, 2, bookmark, link)
@@ -36,7 +36,7 @@ export default function Bookmark () {
                             onFocus={() => {setIsEmailFocused(true)}} 
                             onBlur={() => {setIsEmailFocused(false)}} 
                             autoComplete="off"/>
-                    <button className="sign-up-button" type="submit">Add Link</button>
+                    <button className="sign-up-button" type="submit">Add</button>
                 </div>
                 <div className="modal-background"></div>
             </form>

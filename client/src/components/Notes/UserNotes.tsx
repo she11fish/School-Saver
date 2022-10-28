@@ -1,24 +1,22 @@
-import { useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
 import { BookmarkRow } from "../../interfaces/interface"
-import { deleteBookmark, getUserBookmarks } from "../../utils/util"
+import { getUserBookmarks } from "../../utils/util"
 import Navbar from "../Navbar/navbar"
-import AddBookmark from "./AddBookmark"
-import WarningPopup from "./WarningPopup"
+import TempNote from "./TempNote"
 
 interface Props {
     id: number
 }
 
-export default function UserBookmarks({ id }: Props) {
+export default function UserNotes({ id }: Props) {
 
     const [addBookmarks, setAddBookmarks] = useState(false)
     const [bookmarksData, setBookmarksData] = useState<BookmarkRow | undefined>()
     const [buttonClicked, setButtonClicked] = useState(false)
     const [deleteConfirmation, setDeleteConfirmation] = useState<boolean | null>(null)
 
-    import("../../styles/bookmarks.css");
-    import("../../styles/user_bookmarks.css");
+    import("../../styles/notes.css");
+    import("../../styles/user_notes.css");
 
     useEffect(() => {
         (async () => {
@@ -26,15 +24,13 @@ export default function UserBookmarks({ id }: Props) {
         })()
     }, [])
 
-    const [signUpClicked, setSignUpClicked] = useState(false)
-    const [signInClicked, setSignInClicked] = useState(false)
-
     return (
         <>
             <Navbar />
-            { bookmarksData && bookmarksData?.bookmarks.map((bookmark, i) => <>
+            <TempNote />
+            {/* { bookmarksData && bookmarksData?.bookmarks.map((bookmark, i) => <>
                 <div>
-                    <ul className="bookmark-name">{bookmark}</ul>
+                    <ul>{bookmark}</ul>
                     <button className="delete" onClick={() => {                        
                         setButtonClicked(true)
                     }}>DELETE</button>
@@ -44,9 +40,9 @@ export default function UserBookmarks({ id }: Props) {
                 </li>
                 { deleteConfirmation && deleteBookmark(id, bookmarksData.bookmarks[i], bookmarksData.links[i])}</>)}
                 { deleteConfirmation && window.location.reload() } 
-            <button className="add-bookmark" onClick={() => { setAddBookmarks(true) }}>Add Bookmark</button>
-            { addBookmarks && <AddBookmark /> }
-            { buttonClicked && <WarningPopup setButtonClicked={setButtonClicked} setDeleteConfirmation={setDeleteConfirmation}/> }
+            <button className="bookmark" onClick={() => { setAddBookmarks(true) }}>Add Bookmark</button>
+            { addBookmarks && <AddNote /> }
+            { buttonClicked && <WarningPopup setButtonClicked={setButtonClicked} setDeleteConfirmation={setDeleteConfirmation}/> } */}
         </>
     )
 }

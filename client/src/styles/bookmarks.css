@@ -25,7 +25,7 @@ li {
 }
 
 
-.bookmark {
+.add-bookmark {
     position: relative;
 
     width: calc(361 / 1440 * 100vw);

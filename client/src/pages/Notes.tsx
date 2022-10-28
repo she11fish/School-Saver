@@ -1,22 +1,27 @@
-import "../styles/notes.css"
 import { useState } from "react"
-import { Link }from "react-router-dom"
+import Navbar from "../components/Navbar/navbar";
+import NotEnoughNotes from "../components/Notes/NoNotes";
+import UserNotes from "../components/Notes/UserNotes";
 
 export default function Notes() {
-    const [isSignedUp, setIsSignedUp] = useState(false)
-    const [signUpClicked, setSignUpClicked] = useState(false)
-    const [signInClicked, setSignInClicked] = useState(false)
+    
+    const [hasNotes, setHasNotes] = useState<boolean | null>(null)
+
+    const id = 2;
+
+    // useEffect(() => {
+    //     (async () => {
+    //         setHasNotes(await containsBookmarks(id))
+    //     })()
+    // })
 
     return (
         <>
-            <nav>
-                <div className="nav-title">Home</div>
-                <div className="nav-title">Notes</div>
-                <Link to="/bookmarks"><div className="nav-title">Bookmarks</div></Link>
-                <div className="nav-title" onClick={() => {setSignInClicked(true)}}>Sign in</div>
-                <div className="nav-title" onClick={() => {setSignUpClicked(true)}}>Sign up</div>
-            </nav>
-            <div className="line"></div>
+            {/* { (hasNotes === false) ? <NotEnoughNotes /> : 
+                (hasNotes === true) ? <UserNotes id={id} /> : null
+            } */}
+            {/* <NotEnoughNotes /> */}
+            <UserNotes id={id}/>
         </>
     )
 }

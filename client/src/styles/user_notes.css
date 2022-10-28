@@ -1,0 +1,74 @@
+div:has(>.subject), .day, .note {
+    display: grid;
+
+    align-items: center;
+
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+
+    width: calc(100% - (50 / 1440 * 100vw));
+
+    margin: 0;
+    margin-top: calc(88 / 1440 * 100vw);
+    margin-inline: auto;
+}
+
+div:has(>.subject) {
+    position: relative;
+    left: calc(23 / 1440 * 100vw);
+}
+
+.day {
+    width: calc(100% - (150 / 1440 * 100vw));
+    grid-template-columns: 3.35fr 1fr 1fr;
+}
+
+.note {
+    width: calc(100% - (165 / 1440 * 100vw));
+    grid-template-columns: 3.17fr 1fr 1fr;
+    margin: 0;
+}
+
+.delete, .edit, .add {
+    justify-self: right;
+
+    width: calc(198 / 1440 * 100vw);
+    height: calc(77 / 1440 * 100vw);
+    
+    outline: 0;
+    border: 0;
+
+    border-radius: var(--sm-radius);
+
+    margin-right: calc(40 / 1440 * 100vw);
+
+    font-size: calc(42 / 1440 * 100vw);
+
+    color: white;
+}
+
+.sm {
+    width: calc(180 / 1440 * 100vw);
+    font-size: calc(40 / 1440 * 100vw);
+}
+
+.delete {
+    background-color: var(--red);
+}
+
+.edit {
+    background-color: var(--cyan);
+}
+
+.add {
+    background-color: var(--green)
+}
+
+.day {
+    position: relative;
+    margin: 0;
+    margin-left: calc(150 / 1440 * 100vw);
+    font-size: calc(64 / 1440 * 100vw);
+    font-weight: normal;
+    left: calc(0 / 1440 * 100vw);
+}
+
