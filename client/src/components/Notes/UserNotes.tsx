@@ -1,48 +1,112 @@
-import { useEffect, useState } from "react"
-import { BookmarkRow } from "../../interfaces/interface"
-import { getUserBookmarks } from "../../utils/util"
-import Navbar from "../Navbar/navbar"
-import TempNote from "./TempNote"
+import { useState } from "react";
+import EditPopup from "./EditPopup";
+import AddNote from "./AddNote"
+import WarningPopup from "./WarningPopup";
+import Navbar from "../Navbar/navbar";
 
-interface Props {
-    id: number
-}
-
-export default function UserNotes({ id }: Props) {
-
-    const [addBookmarks, setAddBookmarks] = useState(false)
-    const [bookmarksData, setBookmarksData] = useState<BookmarkRow | undefined>()
-    const [buttonClicked, setButtonClicked] = useState(false)
-    const [deleteConfirmation, setDeleteConfirmation] = useState<boolean | null>(null)
-
+export default function UserNotes({ id }: { id: number }) {
     import("../../styles/notes.css");
     import("../../styles/user_notes.css");
 
-    useEffect(() => {
-        (async () => {
-            setBookmarksData(await getUserBookmarks(id))
-        })()
-    }, [])
+    interface EditMode {
+        truthy: boolean 
+        subject: null | string 
+        note: null | string
+    } 
+
+    interface AddMode {
+        truthy: boolean
+        subject: boolean
+        day: boolean 
+        note: boolean
+    }
+
+    const [editMode, setEditMode] = useState<EditMode>({truthy: false, subject: null, note: null})
+    const [addMode, setAddMode] = useState<AddMode>({truthy: false, subject: false, day: false, note: false})
+
+    const [deleteButtonClicked, setDeleteButtonClicked] = useState(false)
+    const [deleteConfirmation, setDeleteConfirmation] = useState<boolean | null>(null)
+
+    const notes: any = {
+        English: {
+            Monday: [
+                "Act 1 quiz",
+                "Wohooo"
+            ],
+            "Tuesday":
+            [
+                "unlimited notes"
+            ]
+        },
+        "Computer Engineering": {
+            Wednesday: [
+                "Mission Success",
+                "Missionsadfadsfdsafdsafsadfdsaklfjadslk;fjdsal;kjfdsaljdsl;kfjdsal;jfdsal;k"
+            ]
+        }
+    };
 
     return (
         <>
             <Navbar />
-            <TempNote />
-            {/* { bookmarksData && bookmarksData?.bookmarks.map((bookmark, i) => <>
-                <div>
-                    <ul>{bookmark}</ul>
-                    <button className="delete" onClick={() => {                        
-                        setButtonClicked(true)
-                    }}>DELETE</button>
-                </div>
-                <li>
-                    <a href={`https://${bookmarksData.links[i]}`}>{bookmarksData.links[i]}</a>
-                </li>
-                { deleteConfirmation && deleteBookmark(id, bookmarksData.bookmarks[i], bookmarksData.links[i])}</>)}
-                { deleteConfirmation && window.location.reload() } 
-            <button className="bookmark" onClick={() => { setAddBookmarks(true) }}>Add Bookmark</button>
-            { addBookmarks && <AddNote /> }
-            { buttonClicked && <WarningPopup setButtonClicked={setButtonClicked} setDeleteConfirmation={setDeleteConfirmation}/> } */}
+            { Object.keys(notes).map((subject, i) => {
+                console.log(subject, i)
+                return (
+                    <>
+                        <div>
+                            <ul className="subject">{subject}</ul>
+                            <button className="add" onClick={() => {                        
+                                setAddMode({truthy: true, subject: false, day: true, note: true})
+                            }}>ADD</button>
+                            <button className="edit" onClick={() => {                        
+                                setEditMode({truthy: true, subject: subject, note: null} as EditMode)
+                            }}>EDIT</button>
+                            <button className="delete" onClick={() => {                        
+                                setDeleteButtonClicked(true)
+                            }}>DELETE</button>
+                        </div>  
+                            {
+                                Object.keys(notes[subject]).map((day, i) => {
+                                    return (
+                                        <>
+                                            <div className="day">
+                                                {day}
+                                                <button className="sm add" onClick={() => {                        
+                                                    setAddMode({truthy: true, subject: false, day: false, note: true})
+                                                }}>ADD</button>
+                                                <button className="sm delete" onClick={() => {                        
+                                                    setDeleteButtonClicked(true)
+                                                }}>DELETE</button>
+                                            </div>
+                                            <ul >                                                    
+                                                {
+                                                    notes[subject][day].map((note: any, i: any) => {
+                                                        return (
+                                                            <li className="note">
+                                                                {note}
+                                                                <button className="sm edit" onClick={() => {                        
+                                                                    setEditMode({truthy: true, subject: null, note: note} as EditMode)
+                                                                }}>EDIT</button>
+                                                                <button className="sm delete" onClick={() => {                        
+                                                                    setDeleteButtonClicked(true)
+                                                                }}>DELETE</button>
+                                                            </li>
+                                                        )      
+                                                    })
+                                                }                                        
+                                            </ul>
+                                        </>
+                                    )
+                                })
+                            }
+                             
+                    </>                     
+                )
+            })}
+            <button className="add-note" onClick={() => { setAddMode({truthy: true, subject: true, day: true, note: true}) }}>Add Subject</button>
+            { addMode.truthy && <AddNote subject={addMode.subject} day={addMode.day} note={addMode.note}/> }
+            { editMode.truthy && <EditPopup subject={editMode.subject} note={editMode.note} /> }
+            { deleteButtonClicked && <WarningPopup setButtonClicked={setDeleteButtonClicked} setDeleteConfirmation={setDeleteConfirmation}/> }
         </>
     )
 }

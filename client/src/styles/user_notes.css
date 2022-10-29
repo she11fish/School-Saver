@@ -8,8 +8,12 @@ div:has(>.subject), .day, .note {
     width: calc(100% - (50 / 1440 * 100vw));
 
     margin: 0;
-    margin-top: calc(88 / 1440 * 100vw);
+    margin-top: calc(77 / 1440 * 100vw);
     margin-inline: auto;
+}
+
+ul:not(.subject) {
+    margin: 0;
 }
 
 div:has(>.subject) {
@@ -20,12 +24,15 @@ div:has(>.subject) {
 .day {
     width: calc(100% - (150 / 1440 * 100vw));
     grid-template-columns: 3.35fr 1fr 1fr;
+    margin-top: calc(34 / 1440 * 100vw) !important;
 }
 
 .note {
     width: calc(100% - (165 / 1440 * 100vw));
     grid-template-columns: 3.17fr 1fr 1fr;
+
     margin: 0;
+    overflow-wrap: anywhere;
 }
 
 .delete, .edit, .add {

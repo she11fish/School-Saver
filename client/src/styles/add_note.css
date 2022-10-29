@@ -12,7 +12,31 @@
 
     border-radius: calc(32 / 1440 * 100vw);
 
-    position: absolute;
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 10;
+}
+
+.xsm-box {
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: space-evenly;
+    align-items: center;
+
+    width: calc(394 / 1440 * 100vw);
+    height: calc(338 / 1440 * 100vw);
+
+    background-color: var(--white);
+
+    border-radius: calc(32 / 1440 * 100vw);
+
+    position: fixed;
 
     top: 50%;
     left: 50%;
@@ -23,7 +47,7 @@
 }
 
 .modal-background {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
@@ -66,7 +90,7 @@
     color: var(--black);
     opacity: 1;
 }
-.sm-box > div {
+.sm-box > div, .xsm-box > div {
     font-size: var(--md-font-size);
     color: var(--black);
 }
