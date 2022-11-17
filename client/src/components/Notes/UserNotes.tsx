@@ -19,6 +19,8 @@ export default function UserNotes({ id }: { id: number }) {
         subject: boolean
         day: boolean 
         note: boolean
+        current_subject?: string
+        current_day?: string
     }
 
     const [editMode, setEditMode] = useState<EditMode>({truthy: false, subject: null, note: null})
@@ -28,8 +30,8 @@ export default function UserNotes({ id }: { id: number }) {
     const [deleteConfirmation, setDeleteConfirmation] = useState<boolean | null>(null)
 
     const notes: any = {
-        English: {
-            Monday: [
+        "English": {
+            "Monday": [
                 "Act 1 quiz",
                 "Wohooo"
             ],
@@ -39,7 +41,7 @@ export default function UserNotes({ id }: { id: number }) {
             ]
         },
         "Computer Engineering": {
-            Wednesday: [
+            "Wednesday": [
                 "Mission Success",
                 "Missionsadfadsfdsafdsafsadfdsaklfjadslk;fjdsal;kjfdsaljdsl;kfjdsal;jfdsal;k"
             ]
@@ -56,7 +58,7 @@ export default function UserNotes({ id }: { id: number }) {
                         <div>
                             <ul className="subject">{subject}</ul>
                             <button className="add" onClick={() => {                        
-                                setAddMode({truthy: true, subject: false, day: true, note: true})
+                                setAddMode({truthy: true, subject: false, day: true, note: true, current_subject: subject})
                             }}>ADD</button>
                             <button className="edit" onClick={() => {                        
                                 setEditMode({truthy: true, subject: subject, note: null} as EditMode)
@@ -72,25 +74,27 @@ export default function UserNotes({ id }: { id: number }) {
                                             <div className="day">
                                                 {day}
                                                 <button className="sm add" onClick={() => {                        
-                                                    setAddMode({truthy: true, subject: false, day: false, note: true})
+                                                    setAddMode({truthy: true, subject: false, day: false, note: true, current_subject: subject, current_day: day})
                                                 }}>ADD</button>
                                                 <button className="sm delete" onClick={() => {                        
                                                     setDeleteButtonClicked(true)
                                                 }}>DELETE</button>
                                             </div>
-                                            <ul >                                                    
+                                            <ul>                                                    
                                                 {
                                                     notes[subject][day].map((note: any, i: any) => {
                                                         return (
-                                                            <li className="note">
-                                                                {note}
+                                                            <div>
+                                                                <li className="note">
+                                                                {note}                                                
+                                                                </li>
                                                                 <button className="sm edit" onClick={() => {                        
                                                                     setEditMode({truthy: true, subject: null, note: note} as EditMode)
                                                                 }}>EDIT</button>
                                                                 <button className="sm delete" onClick={() => {                        
                                                                     setDeleteButtonClicked(true)
                                                                 }}>DELETE</button>
-                                                            </li>
+                                                            </div>
                                                         )      
                                                     })
                                                 }                                        
@@ -104,7 +108,7 @@ export default function UserNotes({ id }: { id: number }) {
                 )
             })}
             <button className="add-note" onClick={() => { setAddMode({truthy: true, subject: true, day: true, note: true}) }}>Add Subject</button>
-            { addMode.truthy && <AddNote subject={addMode.subject} day={addMode.day} note={addMode.note}/> }
+            { addMode.truthy && <AddNote subject={addMode.subject} day={addMode.day} note={addMode.note} current_subject={addMode?.current_subject} current_day={addMode?.current_day}/> }
             { editMode.truthy && <EditPopup subject={editMode.subject} note={editMode.note} /> }
             { deleteButtonClicked && <WarningPopup setButtonClicked={setDeleteButtonClicked} setDeleteConfirmation={setDeleteConfirmation}/> }
         </>

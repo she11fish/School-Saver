@@ -61,3 +61,39 @@ export async function deleteBookmark(req, res) {
         console.log(err)
     }
 }
+
+export async function getAllNotes(req, res) {
+    try {
+        res.send(await db.query("SELECT * from note"))
+    } catch(err) {
+        res.status(503).send(err)
+        console.log(err)
+    }
+}
+
+export async function createNotes(req, res) {
+    try {
+        res.send(await db.query(`INSERT INTO note (notes) VALUES ('${JSON.stringify(req.body)}');`))
+    } catch(err) {
+        res.status(503).send(err)
+        console.log(err)
+    }
+}
+
+export async function getNotes(req, res) {
+    try {
+        res.send(await db.query(`SELECT * FROM note WHERE id=${req.params.id}`))
+    } catch(err) {
+        res.status(503)
+        console.log(err)
+    }
+}
+
+export async function updateNotes(req, res) {
+    try {
+        res.send(await db.query(`INSERT INTO note VALUES (${req.params.id}, '${JSON.stringify(req.body)}') ON DUPLICATE KEY UPDATE notes = '${JSON.stringify(req.body)}';`))
+    } catch(err) {
+        res.status(503).send(err)
+        console.log(err)
+    }
+}

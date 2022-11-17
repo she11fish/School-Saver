@@ -1,4 +1,4 @@
-div:has(>.subject), .day, .note {
+div:has(>.subject), .day, div:has(>.note) {
     display: grid;
 
     align-items: center;
@@ -28,10 +28,26 @@ div:has(>.subject) {
 }
 
 .note {
-    width: calc(100% - (165 / 1440 * 100vw));
+    margin: 0;
+}
+
+.note {
+    width: calc(650 / 1440 * 100vw);
+}
+
+.sm.edit {
+    position: relative;
+    left: calc(9 / 1440 * 100vw);
+}
+
+div:has(>.note) {
+    position: relative;
+
+    width: calc(100% - (110 / 1440 * 100vw));
     grid-template-columns: 3.17fr 1fr 1fr;
 
     margin: 0;
+    left: calc(110 / 1440 * 100vw);
     overflow-wrap: anywhere;
 }
 

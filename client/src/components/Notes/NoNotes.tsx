@@ -20,7 +20,7 @@ export default function NotEnoughNotes() {
             <Navbar />
             <div className="text">The page feels empty. Want to add more notes?</div>
             <button className="add-bookmark" onClick={() => { setAddMode({truthy: true, subject: true, day: true, note: true}) }}>Add Note</button>
-            { addMode.truthy && <AddNote subject={addMode.subject} day={addMode.day} note={addMode.note} /> }
+            { addMode.truthy && <AddNote subject={addMode.subject} day={addMode.day} note={addMode.note} current_subject={undefined} current_day={undefined} /> }
         </>
     )
 }
