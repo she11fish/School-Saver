@@ -1,8 +1,7 @@
-div:has(>ul) {
+div:has(>.bookmark-name) {
     display: grid;
 
     align-items: center;
-    /* justify-items: auto; */
 
     grid-template-columns: 2fr 1fr;
 
@@ -13,7 +12,7 @@ div:has(>ul) {
     margin-inline: auto;
 }
 
-.delete {
+.delete-button {
     justify-self: right;
 
     width: calc(198 / 1440 * 100vw);

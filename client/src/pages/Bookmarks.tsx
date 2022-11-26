@@ -13,7 +13,7 @@ export default function Bookmarks() {
         (async () => {
             setHasBookmarks(await containsBookmarks(id))
         })()
-    })
+    }, [])
 
     return (
         (hasBookmarks === false) ? <NoBookmarks /> : 

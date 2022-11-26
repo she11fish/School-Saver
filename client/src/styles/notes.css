@@ -3,7 +3,7 @@
     text-align: center;
 }
 
-.subject, li {
+.subject, .note {
     width: 100%;
     margin: 0;
 
@@ -17,7 +17,7 @@
     overflow-wrap: anywhere;
 }
 
-li {
+.note {
     position: relative;
     font-size: calc(64 / 1440 * 100vw);
     margin-top: calc(34 / 1440 * 100vw);
@@ -25,6 +25,30 @@ li {
     left: calc(165 / 1440 * 100vw);
 }
 
+.add-lg-note {
+    position: relative;
+
+    --font-size: calc(64 / 1440 * 100vw);
+
+    width: calc(361 / 1440 * 100vw);
+    height: calc(136 / 1440 * 100vw);
+
+    border-radius: var(--sm-radius);
+    font-size: var(--font-size);
+    
+    left: 50%;
+    transform: translateX(-50%);
+    
+
+    font-family: var(--Jost);
+
+    border: 0;
+    margin: 0;
+    margin-top: calc(56 / 1440 * 100vw);
+
+    background-color: var(--light-blue);
+    color: white;
+} 
 
 .add-note {
     position: relative;

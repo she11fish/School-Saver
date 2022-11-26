@@ -1,7 +1,9 @@
 import { useState } from "react"
-import { addBookmark, createBookmark } from "../../utils/util";
+import { createUserNotes, updateUserNotes } from "../../utils/util";
 
 interface Props {
+    notes: any
+    id: number    
     subject: boolean
     day: boolean
     note: boolean
@@ -9,7 +11,7 @@ interface Props {
     current_day: string | undefined
 }
 
-export default function AddNote({ subject, day, note, current_subject, current_day }: Props) {
+export default function AddNote({ notes, id, subject, day, note, current_subject, current_day }: Props) {
     const [subjectFocused, setSubjectFocused] = useState(false)
     const [isFocused, setIsFocused] = useState(false)
     
@@ -17,16 +19,35 @@ export default function AddNote({ subject, day, note, current_subject, current_d
     const [newDay, setNewDay] = useState<string | null>()
     const [newSubject, setNewSubject] = useState<string | null>()
 
-
-    // const [bookmark, setBookmark] = useState("")
-    // const [link, setLink] = useState("")
-
     import("../../styles/add_note.css");
 
-    function handleSubmit(event: React.MouseEvent<HTMLFormElement, MouseEvent>) {
-        // addBookmark(event, 2, bookmark, link)
+    async function handleSubmit(event: React.MouseEvent<HTMLFormElement, MouseEvent>) {
         event.preventDefault()
-        console.log(newNote, newDay ? newDay : current_day, newSubject ? newSubject : current_subject)
+        if (notes) {
+            if (newSubject && newDay && newNote) {
+                let day_object: any = {}
+                day_object[newDay] = [newNote]
+                notes[newSubject] = day_object 
+                updateUserNotes(notes, id)
+            } else if (newDay && newNote && current_subject) {
+                notes[current_subject][newDay] = [newNote]
+                updateUserNotes(notes, id)
+            }
+        } else {
+            if (newSubject && newDay && newNote) {
+                createUserNotes(newSubject, newDay, newNote)
+            }
+        }
+    }
+
+    async function handleNoteSubmit(event: React.MouseEvent<HTMLFormElement, MouseEvent>) {
+        event.preventDefault()
+        if (notes) {
+            if (current_subject && current_day) {
+                notes[current_subject][current_day].push(newNote)
+                updateUserNotes(notes, id)
+            }
+        }
     }
 
     function getTitle(): string {
@@ -39,11 +60,11 @@ export default function AddNote({ subject, day, note, current_subject, current_d
     if (!subject && !day && note) {
         return (
                 <>
-                    <form onSubmit={handleSubmit} >
+                    <form onSubmit={handleNoteSubmit} >
                         <div className="xsm-box">
                             <div>{getTitle()}</div>
                             <input 
-                            className="text-box" 
+                            className="text-note-box" 
                             type="text" 
                             name="note" 
                             placeholder={!isFocused ? `Note`: ""} 
@@ -51,7 +72,7 @@ export default function AddNote({ subject, day, note, current_subject, current_d
                             onFocus={() => {setIsFocused(true)}} 
                             onBlur={() => {setIsFocused(false)}} 
                             autoComplete="off" />
-                            <button className="sign-up-button" type="submit">Add</button>
+                            <button className="sign-up-note-button" type="submit">Add</button>
                         </div>
                         <div className="modal-background"></div>
                     </form>
@@ -62,10 +83,10 @@ export default function AddNote({ subject, day, note, current_subject, current_d
     return (
         <>
             <form onSubmit={handleSubmit} >
-                <div className="sm-box">
+                <div className="sm-note-box">
                     <div>{getTitle()}</div>
                     { subject && (
-                        <input className="text-box" 
+                        <input className="text-note-box" 
                         type="text" 
                         name="subject" 
                         placeholder={!subjectFocused ? `Subject Name`: ""} 
@@ -77,7 +98,7 @@ export default function AddNote({ subject, day, note, current_subject, current_d
 
                     { day && (
                         <input 
-                        className="text-box" 
+                        className="text-note-box" 
                         type="text" 
                         name="day" 
                         placeholder={!isFocused ? `Day`: ""} 
@@ -90,15 +111,16 @@ export default function AddNote({ subject, day, note, current_subject, current_d
 
                     { note && (
                         <input 
-                        className="text-box" 
+                        className="text-note-box" 
                         type="text" 
                         name="note" 
                         placeholder={!isFocused ? `Note`: ""} 
                         onChange={(e) => setNewNote(e.target.value)}
                         onFocus={() => {setIsFocused(true)}} 
-                        onBlur={() => {setIsFocused(false)}} />
+                        onBlur={() => {setIsFocused(false)}} 
+                        autoComplete="off"  />
                     )}
-                    <button className="sign-up-button" type="submit">Add</button>
+                    <button className="sign-up-note-button" type="submit">Add</button>
                 </div>
                 <div className="modal-background"></div>
             </form>

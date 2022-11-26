@@ -35,7 +35,7 @@ export default function UserBookmarks({ id }: Props) {
             { bookmarksData && bookmarksData?.bookmarks.map((bookmark, i) => <>
                 <div>
                     <ul className="bookmark-name">{bookmark}</ul>
-                    <button className="delete" onClick={() => {                        
+                    <button className="delete-button" onClick={() => {                        
                         setButtonClicked(true)
                     }}>DELETE</button>
                 </div>
