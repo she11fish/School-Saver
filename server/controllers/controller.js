@@ -88,6 +88,16 @@ export async function createNotes(req, res) {
     }
 }
 
+export async function createNotesById(req, res) {
+    const query = pgp.as.format(`INSERT INTO note (id, notes) VALUES ($1, $2) ;`, [req.params.id,JSON.stringify(req.body)]);
+    try {
+        res.send(await db.query(query))
+    } catch(err) {
+        res.status(503).send(err)
+        console.log(err)
+    }
+}
+
 export async function getNotes(req, res) {
     const query = pgp.as.format(`SELECT * FROM note WHERE id=$1`, [req.params.id])
     try {
