@@ -33,7 +33,7 @@
     z-index: 5;
 }
 
-.text-box {
+.sign-up-box {
     width: calc(321 / 1440 * 100vw);
     height: calc(75 / 1440 * 100vw);
 
@@ -49,20 +49,20 @@
     font-size: calc(36 / 1440 * 100vw);
 }
 
-.text-box::placeholder {
+.sign-up-box::placeholder {
     position: absolute;
     font-family: var(--Jost);
     font-size: calc(36 / 1440 * 100vw);
-    top: calc(18 / 1440 * 100vw);
+    top: calc(10 / 1440 * 100vw);
     color: var(--black);
     opacity: 1;
 }
 
-.text-box:hover {
+.sign-up-box:hover {
     font-size: calc(36 / 1440 * 100vw);
     opacity: 1;
 }
-.text-box:focus {
+.sign-up-box:focus {
     color: var(--black);
     opacity: 1;
 }

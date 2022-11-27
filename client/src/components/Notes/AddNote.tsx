@@ -35,7 +35,8 @@ export default function AddNote({ notes, id, subject, day, note, current_subject
             }
         } else {
             if (newSubject && newDay && newNote) {
-                createUserNotes(newSubject, newDay, newNote)
+                console.log("here")
+                createUserNotes(id, newSubject, newDay, newNote)
             }
         }
     }
