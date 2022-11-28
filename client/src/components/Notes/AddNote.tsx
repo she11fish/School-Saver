@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { createUserNotes, updateUserNotes } from "../../utils/util";
+import "../../styles/add_note.css";
 
 interface Props {
     notes: any
-    id: number    
+    id: number   
+    popUpRef: React.RefObject<HTMLDivElement> 
     subject: boolean
     day: boolean
     note: boolean
@@ -11,15 +13,13 @@ interface Props {
     current_day: string | undefined
 }
 
-export default function AddNote({ notes, id, subject, day, note, current_subject, current_day }: Props) {
+export default function AddNote({ notes, id, popUpRef, subject, day, note, current_subject, current_day }: Props) {
     const [subjectFocused, setSubjectFocused] = useState(false)
     const [isFocused, setIsFocused] = useState(false)
     
-    const [newNote, setNewNote] = useState<string | null>()
-    const [newDay, setNewDay] = useState<string | null>()
-    const [newSubject, setNewSubject] = useState<string | null>()
-
-    import("../../styles/add_note.css");
+    const [newNote, setNewNote] = useState<string>("")
+    const [newDay, setNewDay] = useState<string>("")
+    const [newSubject, setNewSubject] = useState<string>("")
 
     async function handleSubmit(event: React.MouseEvent<HTMLFormElement, MouseEvent>) {
         event.preventDefault()
@@ -45,8 +45,10 @@ export default function AddNote({ notes, id, subject, day, note, current_subject
         event.preventDefault()
         if (notes) {
             if (current_subject && current_day) {
-                notes[current_subject][current_day].push(newNote)
-                updateUserNotes(notes, id)
+                if (newNote) {
+                    notes[current_subject][current_day].push(newNote)
+                    updateUserNotes(notes, id)
+                }
             }
         }
     }
@@ -62,7 +64,7 @@ export default function AddNote({ notes, id, subject, day, note, current_subject
         return (
                 <>
                     <form onSubmit={handleNoteSubmit} >
-                        <div className="xsm-box">
+                        <div className="xsm-box" ref={popUpRef}>
                             <div>{getTitle()}</div>
                             <input 
                             className="text-note-box" 
@@ -84,7 +86,7 @@ export default function AddNote({ notes, id, subject, day, note, current_subject
     return (
         <>
             <form onSubmit={handleSubmit} >
-                <div className="sm-note-box">
+                <div className="sm-note-box" ref={popUpRef}>
                     <div>{getTitle()}</div>
                     { subject && (
                         <input className="text-note-box" 

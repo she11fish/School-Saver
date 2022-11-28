@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { signup } from "../../utils/util";
+import "../../styles/sign_up.css";
 
-export default function SignUp () {
+export default function SignUp ({ popUpRef}: { popUpRef: React.RefObject<HTMLDivElement>}) {
     const [isEmailFocused, setIsEmailFocused] = useState(false)
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
@@ -14,12 +15,10 @@ export default function SignUp () {
             signup(email, password)
         }
     }
-
-    import("../../styles/sign_up.css");
     
     return (
         <>
-            <div className="sm-box">
+            <div className="sm-box" ref={popUpRef}>
                 <div>Sign Up</div>
                 <input className="sign-up-box" type="email" placeholder={!isEmailFocused ? `Email`: ""} onChange={(e) => setEmail(e.target.value)} onFocus={() => {setIsEmailFocused(true)}} onBlur={() => {setIsEmailFocused(false)}}/>
                 <input className="sign-up-box" type="password" placeholder={!isPasswordFocused ? `Password`: ""} onChange={(e) => setPassword(e.target.value)} onFocus={() => {setIsPasswordFocused(true)}} onBlur={() => {setIsPasswordFocused(false)}}/>

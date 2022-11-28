@@ -1,6 +1,5 @@
 import { pool as db } from "../models/db.js"
 import pgp from "pg-promise"
-import { dereferenceArray } from "../services/service.js"
 
 export async function getAllBookmarks(req, res) {
     const query = pgp.as.format("SELECT * from bookmark")
@@ -28,10 +27,24 @@ export async function createBookmark(req, res) {
     bookmark = bookmark.split(" ")
     link = Array(link) 
 
-    const dereferenedBookmark = dereferenceArray(bookmark)
-    const dereferenedLink = dereferenceArray(link)
+    const query = pgp.as.format(`INSERT INTO bookmark (bookmarks, links) VALUES ('{$1}' , $2);`, [bookmark, link])
+    
+    try {
+        res.send(await db.query(query))
+    } catch(err) {
+        res.status(503)
+        console.log(err)
+    }
+}
 
-    const query = pgp.as.format(`INSERT INTO bookmark (bookmarks, links) VALUES ('{$1}' , '{$2}');`, [dereferenedBookmark, dereferenedLink])
+export async function createBookmarkById(req, res) {
+    let { bookmark, link } = req.body
+
+    bookmark = bookmark.split(" ")
+    link = Array(link) 
+
+    const query = pgp.as.format(`INSERT INTO bookmark (id, bookmarks, links) VALUES ($1, $2, $3);`, [req.params.id, bookmark, link])
+    
     try {
         res.send(await db.query(query))
     } catch(err) {

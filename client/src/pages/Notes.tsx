@@ -1,7 +1,6 @@
 import { onAuthStateChanged } from "@firebase/auth";
 import { useState, useEffect } from "react"
-import { Navigate } from "react-router-dom";
-import Navbar from "../components/Navbar/navbar";
+import { useNavigate } from "react-router-dom";
 import NotEnoughNotes from "../components/Notes/NoNotes";
 import UserNotes from "../components/Notes/UserNotes";
 import { auth } from "../firebase-config";
@@ -13,6 +12,7 @@ export default function Notes() {
     const [notes, setNotes] = useState<any>()
     const [id, setId] = useState<number | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const navigate = useNavigate()
 
     async function initialize() {
         if (id === 0 || id && loading) {
@@ -33,7 +33,7 @@ export default function Notes() {
                     console.log(user.uid)
                     setId(getUserId(user.uid))
                 } else {
-                    <Navigate to="/" replace />
+                    navigate('/')
                 }
             })
         })()
@@ -41,7 +41,8 @@ export default function Notes() {
 
     return (
         <>
-            { (hasNotes === false) && (id === 0 || id) ? <NotEnoughNotes id={id} notes={notes} /> : 
+            { 
+                (hasNotes === false) && (id === 0 || id) ? <NotEnoughNotes id={id} notes={notes} /> : 
                 (hasNotes === true) && (id === 0 || id) ? <UserNotes id={id} notes={notes} /> : null
             }
         </>

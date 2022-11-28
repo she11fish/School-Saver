@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { updateUserNotes } from "../../utils/util";
+import "../../styles/edit_popup.css";
 
 interface Props {
     notes: any
     id: number
+    popUpRef: React.RefObject<HTMLDivElement>
     subject: string | null
     note: string | null
     current_subject: string
@@ -11,24 +13,21 @@ interface Props {
     current_note: string | undefined
 }
 
-export default function EditPopup({ notes, id, subject, note, current_subject, current_day, current_note }: Props) {
-    import("../../styles/edit_popup.css");
+export default function EditPopup({ notes, id, popUpRef, subject, note, current_subject, current_day, current_note }: Props) {
 
-    const [newNote, setNewNote] = useState<string | null>()
-    const [newSubject, setNewSubject] = useState<string | null>()
+    const [newNote, setNewNote] = useState<string>("")
+    const [newSubject, setNewSubject] = useState<string>("")
 
     function handleSubmit(event: React.MouseEvent<HTMLFormElement, MouseEvent>) {
         event.preventDefault()
-        console.log(current_day)
         if (!current_day && newSubject) {
-            console.log(newSubject)
             const sub_notes = notes[current_subject]
             notes[newSubject] = sub_notes
             delete notes[current_subject]
         } else {
             if (current_note && current_day) {
-                const index = notes[current_subject][current_day].indexOf(current_note)
-                if (index != -1) {
+                const index = notes[current_subject][current_day]?.indexOf(current_note)
+                if (index != -1 && typeof index === "number" && newNote) {
                     notes[current_subject][current_day][index] = newNote
                 }
             }
@@ -52,7 +51,7 @@ export default function EditPopup({ notes, id, subject, note, current_subject, c
         return (
             <>
                 <form onSubmit={handleSubmit} >
-                    <div className="xsm-box">
+                    <div className="xsm-box" ref={popUpRef}>
                         <div>Edit Subject</div>
                         <input className="text-note-box" 
                             type="text" 
@@ -75,7 +74,7 @@ export default function EditPopup({ notes, id, subject, note, current_subject, c
         return (
             <>
                 <form onSubmit={handleSubmit} >
-                    <div className="xsm-box">
+                    <div className="xsm-box" ref={popUpRef}>
                         <div>Edit Note</div>
                         <input 
                             className="text-note-box" 

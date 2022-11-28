@@ -1,23 +1,25 @@
 import {  useState } from "react"
-import { addBookmark, createBookmark } from "../../utils/util";
+import { addBookmark } from "../../utils/util";
+import "../../styles/add_bookmark.css";
 
-export default function Bookmark () {
+export default function Bookmark({ id, popUpRef }: { id: number, popUpRef: React.RefObject<HTMLDivElement> }) {
     const [isUsernameFocused, setIsUsernameFocused] = useState(false)
     const [isEmailFocused, setIsEmailFocused] = useState(false)
     
     const [bookmark, setBookmark] = useState("")
     const [link, setLink] = useState("")
 
-    import("../../styles/add_bookmark.css");
-
-    function handleSubmit(event: React.MouseEvent<HTMLFormElement, MouseEvent>) {
-        addBookmark(event, 2, bookmark, link)
+    async function handleSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        event.preventDefault()
+        if (bookmark && link) {
+            await addBookmark(id, bookmark, link)
+        }
     }
 
     return (
         <>
-            <form onSubmit={handleSubmit} >
-                <div className="sm-box">
+            <form>
+                <div className="add-sm-box" ref={popUpRef}>
                     <div>Bookmark</div>
                     <input className="text-box" 
                            type="text" 
@@ -36,7 +38,7 @@ export default function Bookmark () {
                             onFocus={() => {setIsEmailFocused(true)}} 
                             onBlur={() => {setIsEmailFocused(false)}} 
                             autoComplete="off"/>
-                    <button className="sign-up-button" type="submit">Add</button>
+                    <button className="sign-up-button" type="submit" onClick={(e) => handleSubmit(e)}>Add</button>
                 </div>
                 <div className="modal-background"></div>
             </form>

@@ -3,9 +3,9 @@ import { BookmarkRow } from "../interfaces/interface";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { auth } from "../firebase-config";
 
-export async function createBookmark(event: React.MouseEvent<HTMLFormElement, MouseEvent>, bookmark: string, link: string) {
+export async function createBookmark(bookmark: string, link: string) {
     try {
-        const request = await axios.post(`http://localhost:5000/api/v1/bookmarks/`, {
+        await axios.post(`http://localhost:5000/api/v1/bookmarks/`, {
             bookmark: bookmark,
             link: link
         })
@@ -14,9 +14,26 @@ export async function createBookmark(event: React.MouseEvent<HTMLFormElement, Mo
     }
 }
 
-export async function addBookmark(event: React.MouseEvent<HTMLFormElement, MouseEvent>, id:number, bookmark: string, link: string) {
+export async function createBookmarkById(id: number, bookmark: string, link: string) {
     try {
-        const request = await axios.patch(`http://localhost:5000/api/v1/bookmarks/${id}`, {
+        await axios.post(`http://localhost:5000/api/v1/bookmarks/${id}`, {
+            bookmark: bookmark,
+            link: link
+        })
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+export async function addBookmark(id:number, bookmark: string, link: string) {
+    const bookmarks = await getUserBookmarks(id)
+    if (!bookmarks) {
+        await createBookmarkById(id, bookmark, link)
+        return
+    }
+    
+    try {
+        await axios.patch(`http://localhost:5000/api/v1/bookmarks/${id}`, {
             bookmark: bookmark,
             link: link
         })
@@ -40,7 +57,10 @@ export async function containsBookmarks(id: number): Promise<boolean> {
     try {
         const response = await axios.get(`http://localhost:5000/api/v1/bookmarks/${id}`)
         const data = response.data
-        return Boolean(data.rows[0].bookmarks.length) 
+        if (!data.rows.length) {
+            return false
+        }
+        return Boolean(data.rows[0]?.bookmarks.length) 
     } catch(err) {
         console.log(err)
         return false
@@ -96,10 +116,12 @@ export async function updateUserNotes(notes: object, id: number) {
 }
 
 export async function containsNotes(id: number): Promise<boolean> {
-    console.log("id")
     try {
         const response = await axios.get(`http://localhost:5000/api/v1/notes/${id}`)
         const data = response.data
+        if (!data.rows.length) {
+            return false
+        }
         return Boolean(Object.keys(data.rows[0]?.notes).length) 
     } catch(err) {
         console.log(err)

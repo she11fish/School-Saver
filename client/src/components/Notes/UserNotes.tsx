@@ -1,14 +1,13 @@
-import { useState} from "react";
+import { useEffect, useRef, useState} from "react";
 import EditPopup from "./EditPopup";
 import AddNote from "./AddNote"
 import WarningPopup from "./WarningPopup";
-import Navbar from "../Navbar/navbar";
+import Navbar from "../Navbar/Navbar";
 import { deleteNotes } from "../../utils/util";
+import "../../styles/notes.css";
+import "../../styles/user_notes.css";
 
 export default function UserNotes({ id, notes }: { id: number, notes: any }) {
-    import("../../styles/notes.css");
-    import("../../styles/user_notes.css");
-
     interface EditMode {
         truthy: boolean 
         subject: string | null 
@@ -28,7 +27,6 @@ export default function UserNotes({ id, notes }: { id: number, notes: any }) {
     }
 
     interface DeleteMode {
-        truthy: boolean
         subject: string
         day: string
         note: string
@@ -36,10 +34,50 @@ export default function UserNotes({ id, notes }: { id: number, notes: any }) {
 
     const [editMode, setEditMode] = useState<EditMode>({ truthy: false, subject: null, note: null, current_subject: "", current_day: "", current_note: "" })
     const [addMode, setAddMode] = useState<AddMode>({ truthy: false, subject: false, day: false, note: false })
-    const [deleteMode, setDeleteMode] = useState<DeleteMode>({ truthy: false, subject: "", day: "", note: "" })
+    const [deleteMode, setDeleteMode] = useState<DeleteMode>({ subject: "", day: "", note: "" })
 
     const [deleteButtonClicked, setDeleteButtonClicked] = useState(false)
     const [deleteConfirmation, setDeleteConfirmation] = useState<boolean | null>(null)
+
+    const [addPopUpfocus, setAddPopUpfocus] = useState<boolean>(false)
+    const addPopUpRef = useRef<HTMLDivElement>(null)
+
+    const [editPopUpfocus, setEditPopUpfocus] = useState<boolean>(false)
+    const editPopUpRef = useRef<HTMLDivElement>(null)
+
+    const [deletePopUpfocus, setDeletePopUpfocus] = useState<boolean>(false)
+    const deletePopUpRef = useRef<HTMLDivElement>(null)
+
+
+    useEffect(() => {
+        document.addEventListener("mousedown", (event) => {
+            const popUp: HTMLDivElement | null = addPopUpRef.current
+            const target = event.target as Node
+            if ((popUp?.contains(target))) {
+                setAddPopUpfocus(true)
+                return
+            }
+            setAddPopUpfocus(false)
+        })
+        document.addEventListener("mousedown", (event) => {
+            const popUp: HTMLDivElement | null = editPopUpRef.current
+            const target = event.target as Node
+            if ((popUp?.contains(target))) {
+                setEditPopUpfocus(true)
+                return
+            }
+            setEditPopUpfocus(false)
+        })
+        document.addEventListener("mousedown", (event) => {
+            const popUp: HTMLDivElement | null = deletePopUpRef.current
+            const target = event.target as Node
+            if ((popUp?.contains(target))) {
+                setDeletePopUpfocus(true)
+                return
+            }
+            setDeletePopUpfocus(false)
+        })
+    })
 
     return (
         <>
@@ -51,14 +89,17 @@ export default function UserNotes({ id, notes }: { id: number, notes: any }) {
                             <ul className="subject">{subject}</ul>
                             <button className="add" onClick={() => {                        
                                 setAddMode({truthy: true, subject: false, day: true, note: true, current_subject: subject})
+                                setAddPopUpfocus(true)
                             }}>ADD</button>
                             <button className="edit" onClick={() => {                        
                                 setEditMode({truthy: true, subject: subject, note: null, current_subject: subject})
+                                setEditPopUpfocus(true)
                             }}>EDIT</button>
                             <button className="delete" onClick={() => {  
                                 if (!deleteButtonClicked) {
-                                    setDeleteMode({ ...deleteMode, truthy: true, subject: subject})
-                                }                      
+                                    setDeleteMode({ ...deleteMode, subject: subject})
+                                }          
+                                setDeletePopUpfocus(true)            
                                 setDeleteButtonClicked(true)
                             }}>DELETE</button>
                         </div>
@@ -70,11 +111,13 @@ export default function UserNotes({ id, notes }: { id: number, notes: any }) {
                                             {day}
                                             <button className="sm add" onClick={() => {                        
                                                 setAddMode({truthy: true, subject: false, day: false, note: true, current_subject: subject, current_day: day})
+                                                setAddPopUpfocus(true)
                                             }}>ADD</button>
                                             <button className="sm delete" onClick={() => {   
                                                 if (!deleteButtonClicked) {
-                                                    setDeleteMode({ ...deleteMode, truthy: true, subject: subject, day: day})
+                                                    setDeleteMode({ ...deleteMode, subject: subject, day: day})
                                                 }                    
+                                                setDeletePopUpfocus(true)
                                                 setDeleteButtonClicked(true)
                                             }}>DELETE</button>
                                         </div>
@@ -89,11 +132,13 @@ export default function UserNotes({ id, notes }: { id: number, notes: any }) {
                                                             </li>
                                                             <button className="sm edit" onClick={() => {                        
                                                                 setEditMode({truthy: true, subject: null, note: note, current_subject: subject, current_day: day, current_note: note})
+                                                                setEditPopUpfocus(true)
                                                             }}>EDIT</button>
                                                             <button className="sm delete" onClick={() => {    
                                                                 if (!deleteButtonClicked) {
-                                                                    setDeleteMode({ truthy: true, subject: subject, day: day, note: note })
+                                                                    setDeleteMode({ subject: subject, day: day, note: note })
                                                                 }
+                                                                setDeletePopUpfocus(true)
                                                                 setDeleteButtonClicked(true)
                                                             }}>DELETE</button>
                                                             </div>                                                                                                                     
@@ -109,11 +154,11 @@ export default function UserNotes({ id, notes }: { id: number, notes: any }) {
                     </>
                 )
             })}
-            <button className="add-note" onClick={() => { setAddMode({truthy: true, subject: true, day: true, note: true}) }}>Add Subject</button>
-            { addMode.truthy && <AddNote notes={notes} id={id} subject={addMode.subject} day={addMode.day} note={addMode.note} current_subject={addMode?.current_subject} current_day={addMode?.current_day}/> }
-            { editMode.truthy && <EditPopup notes={notes} id={id} subject={editMode.subject} note={editMode.note} current_subject={editMode.current_subject} current_day={editMode?.current_day} current_note={editMode?.current_note}/> }
-            { deleteButtonClicked && <WarningPopup setButtonClicked={setDeleteButtonClicked} setDeleteConfirmation={setDeleteConfirmation}/> }
-            { deleteConfirmation && !deleteNotes(notes, id, deleteMode.subject, deleteMode.day, deleteMode.note)}
+            <button className="add-note" onClick={() => { setAddMode({truthy: true, subject: true, day: true, note: true}); setAddPopUpfocus(true) }}>Add Subject</button>
+            { addMode.truthy && addPopUpfocus && <AddNote notes={notes} id={id} popUpRef={addPopUpRef} subject={addMode.subject} day={addMode.day} note={addMode.note} current_subject={addMode?.current_subject} current_day={addMode?.current_day}/> }
+            { editMode.truthy && editPopUpfocus && <EditPopup notes={notes} id={id} popUpRef={editPopUpRef} subject={editMode.subject} note={editMode.note} current_subject={editMode.current_subject} current_day={editMode?.current_day} current_note={editMode?.current_note}/> }
+            { deleteButtonClicked && deletePopUpfocus && <WarningPopup popUpRef={deletePopUpRef} setButtonClicked={setDeleteButtonClicked} setDeleteConfirmation={setDeleteConfirmation}/> }
+            { deleteConfirmation && deleteNotes(notes, id, deleteMode.subject, deleteMode.day, deleteMode.note)}
             { deleteButtonClicked && deleteConfirmation && setDeleteButtonClicked(false) }
             { !deleteButtonClicked && deleteConfirmation && setDeleteConfirmation(false)}
             {/* { deleteConfirmation && window.location.reload() } */}
