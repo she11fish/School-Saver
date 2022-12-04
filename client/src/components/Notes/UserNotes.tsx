@@ -161,7 +161,7 @@ export default function UserNotes({ id, notes }: { id: number, notes: any }) {
             { deleteConfirmation && deleteNotes(notes, id, deleteMode.subject, deleteMode.day, deleteMode.note)}
             { deleteButtonClicked && deleteConfirmation && setDeleteButtonClicked(false) }
             { !deleteButtonClicked && deleteConfirmation && setDeleteConfirmation(false)}
-            {/* { deleteConfirmation && window.location.reload() } */}
+            { deleteConfirmation && window.location.reload() }
         </>
     )
 }

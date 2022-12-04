@@ -90,7 +90,7 @@
     color: var(--black);
     opacity: 1;
 }
-.sm-note-box > div, .xsm-box > div {
+.note-title {
     font-size: var(--md-font-size);
     color: var(--black);
 }
@@ -110,3 +110,7 @@
     color: white;
 }
 
+.note-feedback {
+    font-size: calc(20 / 1440 * 100vw);;
+    color: var(--black);
+}

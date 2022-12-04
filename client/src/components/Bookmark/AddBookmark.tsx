@@ -1,5 +1,6 @@
 import {  useState } from "react"
 import { addBookmark } from "../../utils/util";
+import validator from "validator"
 import "../../styles/add_bookmark.css";
 
 export default function Bookmark({ id, popUpRef }: { id: number, popUpRef: React.RefObject<HTMLDivElement> }) {
@@ -9,36 +10,60 @@ export default function Bookmark({ id, popUpRef }: { id: number, popUpRef: React
     const [bookmark, setBookmark] = useState("")
     const [link, setLink] = useState("")
 
-    async function handleSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        event.preventDefault()
-        if (bookmark && link) {
-            await addBookmark(id, bookmark, link)
+    const [valid, setValid] = useState(true)
+    const [message, setMessage] = useState("")
+
+    const [validInput, setValidInput] = useState(false)
+
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+        if (!validInput) {
+            setValid(false)
+            setMessage("")
+            return
         }
+        setValid(true)
+        setMessage("Creating Bookmark...")
+        await addBookmark(id, bookmark, link)
+        window.location.reload()
     }
+
+    const valid_bookmark = /[a-zA-Z0-9]{4,}/.test(bookmark) && bookmark
+
+    const valid_link = validator.isURL(link) && link
+
+    const validateInput = () => Boolean(valid_bookmark && valid_link && bookmark && link)
+
+    const feedback = (<div className="bookmark-feedback">{ !valid_bookmark ? 'Bookmark must have at least 4 alphanumeric characters' : !valid_link ? 'Must be a valid URL' :  message }</div>)
 
     return (
         <>
-            <form>
+            <form onSubmit={(e) => handleSubmit(e)}>
                 <div className="add-sm-box" ref={popUpRef}>
-                    <div>Bookmark</div>
+                    <div className="bookmark-header">Bookmark</div>
                     <input className="text-box" 
                            type="text" 
-                           name="bookmark" 
+                           name="bookmark"
+                           ref={() => setValidInput(validateInput())} 
                            placeholder={!isUsernameFocused ? `Name`: ""} 
                            onChange={(e) => setBookmark(e.target.value)}
                            onFocus={() => {setIsUsernameFocused(true)}} 
                            onBlur={() => {setIsUsernameFocused(false)}} 
+                           required
                            autoComplete="off"/>
                     <input 
                            className="text-box" 
-                            type="text" 
+                            type="url" 
                             name="link" 
+                            ref={() => setValidInput(validateInput())} 
                             placeholder={!isEmailFocused ? `Link`: ""} 
                             onChange={(e) => setLink(e.target.value)}
                             onFocus={() => {setIsEmailFocused(true)}} 
                             onBlur={() => {setIsEmailFocused(false)}} 
+                            required
                             autoComplete="off"/>
-                    <button className="sign-up-button" type="submit" onClick={(e) => handleSubmit(e)}>Add</button>
+                    { (!valid || message)  && feedback }
+                    <button className="sign-up-button" type="submit">Add</button>
                 </div>
                 <div className="modal-background"></div>
             </form>

@@ -90,7 +90,8 @@
     color: var(--black);
     opacity: 1;
 }
-.sm-note-box > div, .xsm-box > div {
+
+.edit-note-title, .edit-subject-title {
     font-size: var(--md-font-size);
     color: var(--black);
 }

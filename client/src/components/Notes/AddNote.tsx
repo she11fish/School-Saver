@@ -21,22 +21,65 @@ export default function AddNote({ notes, id, popUpRef, subject, day, note, curre
     const [newDay, setNewDay] = useState<string>("")
     const [newSubject, setNewSubject] = useState<string>("")
 
+    const [message, setMessage] = useState("")
+
+    const feedback = (<div className="note-feedback">{ message }</div>)
+
+    const valid_subject = validateSubject()
+    const valid_day = validateDay()
+    const valid_note = validateNote()
+
+    function validateSubject() {
+        return /[a-zA-Z0-9 \.-_]{4,37}/.test(newSubject)
+    }
+
+    function validateDay() {
+        return ("Monday" ===  newDay || "Mon" ===  newDay
+                || "Tuesday" === newDay ||  "Tue" ===  newDay || "Tues" === newDay
+                || "Wednesday" === newDay || "Wed" === newDay
+                || "Thursday" === newDay ||   "Thu" === newDay || "Thur" === newDay || "Thrus" === newDay
+                || "Friday" === newDay || "Fri" === newDay 
+                || "Saturday" === newDay || "Sat" === newDay  
+                || "Sunday" === newDay || "Sun" == newDay)
+    }
+
+    function validateNote() {
+        return /[a-zA-Z0-9 \._]{4,100}/.test(newNote)
+    }
+
     async function handleSubmit(event: React.MouseEvent<HTMLFormElement, MouseEvent>) {
         event.preventDefault()
         if (notes) {
             if (newSubject && newDay && newNote) {
-                let day_object: any = {}
-                day_object[newDay] = [newNote]
-                notes[newSubject] = day_object 
-                updateUserNotes(notes, id)
+                if (valid_subject && valid_day && valid_note) {
+                    let day_object: any = {}
+                    day_object[newDay] = [newNote]
+                    notes[newSubject] = day_object
+                    setMessage("Adding Note...")
+                    updateUserNotes(notes, id)
+                    window.location.reload()
+                    return
+                }
+                setMessage("Must be a valid subject, day, and note")
             } else if (newDay && newNote && current_subject) {
-                notes[current_subject][newDay] = [newNote]
-                updateUserNotes(notes, id)
+                if (valid_day && valid_note) {
+                    notes[current_subject][newDay] = [newNote]
+                    setMessage("Adding Day...")
+                    updateUserNotes(notes, id)
+                    window.location.reload()
+                    return
+                }
+                setMessage("Must be a valid day and note")
             }
         } else {
             if (newSubject && newDay && newNote) {
-                console.log("here")
-                createUserNotes(id, newSubject, newDay, newNote)
+                if (valid_subject && valid_day && valid_note) {
+                    setMessage("Creating Note...")
+                    createUserNotes(id, newSubject, newDay, newNote)
+                    window.location.reload()
+                    return
+                }
+                setMessage("Must be a valid subject, day, and note")
             }
         }
     }
@@ -45,10 +88,14 @@ export default function AddNote({ notes, id, popUpRef, subject, day, note, curre
         event.preventDefault()
         if (notes) {
             if (current_subject && current_day) {
-                if (newNote) {
+                if (newNote && valid_note) {
                     notes[current_subject][current_day].push(newNote)
+                    setMessage("Adding Note...")
                     updateUserNotes(notes, id)
+                    window.location.reload()
+                    return
                 }
+                setMessage("Must be a valid note")
             }
         }
     }
@@ -65,7 +112,7 @@ export default function AddNote({ notes, id, popUpRef, subject, day, note, curre
                 <>
                     <form onSubmit={handleNoteSubmit} >
                         <div className="xsm-box" ref={popUpRef}>
-                            <div>{getTitle()}</div>
+                            <div className="note-title">{getTitle()}</div>
                             <input 
                             className="text-note-box" 
                             type="text" 
@@ -75,6 +122,7 @@ export default function AddNote({ notes, id, popUpRef, subject, day, note, curre
                             onFocus={() => {setIsFocused(true)}} 
                             onBlur={() => {setIsFocused(false)}} 
                             autoComplete="off" />
+                            { message && feedback }
                             <button className="sign-up-note-button" type="submit">Add</button>
                         </div>
                         <div className="modal-background"></div>
@@ -87,7 +135,7 @@ export default function AddNote({ notes, id, popUpRef, subject, day, note, curre
         <>
             <form onSubmit={handleSubmit} >
                 <div className="sm-note-box" ref={popUpRef}>
-                    <div>{getTitle()}</div>
+                    <div className="note-title">{getTitle()}</div>
                     { subject && (
                         <input className="text-note-box" 
                         type="text" 
@@ -108,7 +156,6 @@ export default function AddNote({ notes, id, popUpRef, subject, day, note, curre
                         onChange={(e) => setNewDay(e.target.value)}
                         onFocus={() => {setIsFocused(true)}} 
                         onBlur={() => {setIsFocused(false)}} 
-                        maxLength={15}
                         autoComplete="off"/>
                     )}
 
@@ -123,6 +170,7 @@ export default function AddNote({ notes, id, popUpRef, subject, day, note, curre
                         onBlur={() => {setIsFocused(false)}} 
                         autoComplete="off"  />
                     )}
+                    { message && feedback }
                     <button className="sign-up-note-button" type="submit">Add</button>
                 </div>
                 <div className="modal-background"></div>

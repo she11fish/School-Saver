@@ -18,20 +18,46 @@ export default function EditPopup({ notes, id, popUpRef, subject, note, current_
     const [newNote, setNewNote] = useState<string>("")
     const [newSubject, setNewSubject] = useState<string>("")
 
+    const [message, setMessage] = useState("")
+
+    const feedback = (<div className="note-feedback">{ message }</div>)
+
+    const valid_subject = validateSubject()
+    const valid_note = validateNote()
+
+    function validateSubject() {
+        return /[a-zA-Z0-9 \.-_]{4,37}/.test(newSubject)
+    }
+
+    function validateNote() {
+        return /[a-zA-Z0-9 \._]{4,100}/.test(newNote)
+    }
+
     function handleSubmit(event: React.MouseEvent<HTMLFormElement, MouseEvent>) {
         event.preventDefault()
         if (!current_day && newSubject) {
+            if (!valid_subject) {
+                setMessage("Must be a valid subject");
+                return
+            }
             const sub_notes = notes[current_subject]
             notes[newSubject] = sub_notes
             delete notes[current_subject]
+            setMessage("Editing Subject...");
         } else {
             if (current_note && current_day) {
                 const index = notes[current_subject][current_day]?.indexOf(current_note)
                 if (index != -1 && typeof index === "number" && newNote) {
+                    if (!valid_note) {
+                        setMessage("Must be a valid note");
+                        return
+                    }
                     notes[current_subject][current_day][index] = newNote
+                    setMessage("Editing Note...");
                 }
             }
         }
+        window.location.reload()
         updateUserNotes(notes, id)
     }
 
@@ -52,7 +78,7 @@ export default function EditPopup({ notes, id, popUpRef, subject, note, current_
             <>
                 <form onSubmit={handleSubmit} >
                     <div className="xsm-box" ref={popUpRef}>
-                        <div>Edit Subject</div>
+                        <div className="edit-subject-title">Edit Subject</div>
                         <input className="text-note-box" 
                             type="text" 
                             name="subject" 
@@ -61,8 +87,8 @@ export default function EditPopup({ notes, id, popUpRef, subject, note, current_
                             onFocus={() => onFocus(subject)} 
                             onBlur={() => onBlur(subject)} 
                             autoComplete="off"
-                            maxLength={37}
                             required/>
+                        { message && feedback }
                         <button className="sign-up-note-button" type="submit">Edit</button>
                     </div>
                     <div className="modal-background"></div>
@@ -75,7 +101,7 @@ export default function EditPopup({ notes, id, popUpRef, subject, note, current_
             <>
                 <form onSubmit={handleSubmit} >
                     <div className="xsm-box" ref={popUpRef}>
-                        <div>Edit Note</div>
+                        <div className="edit-note-title">Edit Note</div>
                         <input 
                             className="text-note-box" 
                             type="text" 
@@ -85,8 +111,8 @@ export default function EditPopup({ notes, id, popUpRef, subject, note, current_
                             onFocus={() => onFocus(note)} 
                             onBlur={() => onBlur(note)} 
                             autoComplete="off"
-                            maxLength={100}
                             required/>
+                        { message && feedback }
                         <button className="sign-up-note-button" type="submit">Edit</button>
                     </div>
                     <div className="modal-background"></div>

@@ -66,10 +66,6 @@
     color: var(--black);
     opacity: 1;
 }
-.add-sm-box > div {
-    font-size: var(--md-font-size);
-    color: var(--black);
-}
 
 .sign-up-button {
     font-size: calc(32 / 1440 * 100vw);
@@ -84,5 +80,15 @@
     outline: 0;
     padding: 0;
     color: white;
+}
+
+.bookmark-header {
+    font-size: var(--md-font-size);
+    color: var(--black);
+}
+
+.bookmark-feedback {
+    font-size: calc(20 / 1440 * 100vw);;
+    color: var(--black);
 }
 

@@ -72,9 +72,11 @@ export default function UserBookmarks({ id }: Props) {
                                 setButtonClicked(true)
                             }}>DELETE</button>
                         </div>
-                        <li>
-                            <a href={`https://${bookmarksData.links[i]}`}>{bookmarksData.links[i]}</a>
-                        </li>
+                        <ul className="link-container">
+                            <li>
+                                <a className="test" href={`${bookmarksData.links[i]}`}>{bookmarksData.links[i]}</a>
+                            </li>
+                        </ul>
 
                     </>
                 )
@@ -85,6 +87,7 @@ export default function UserBookmarks({ id }: Props) {
             { deleteConfirmation && (bookmark && link) && deleteBookmark(id, bookmark, link) }
             { buttonClicked && deleteConfirmation && setButtonClicked(false) }
             { !buttonClicked && deleteConfirmation && setDeleteConfirmation(false)}
+            { deleteConfirmation && window.location.reload() }
         </>
     )
 }

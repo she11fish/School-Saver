@@ -97,9 +97,8 @@ export async function createUserNotes(id: number, subject: string, day: string, 
         let day_object: any = {}
         day_object[day] = [note]
         notes[subject] = day_object
-        const request = await axios.post(`http://localhost:5000/api/v1/notes/${id}`, {
-            notes
-        })
+        console.log(notes)
+        await axios.post(`http://localhost:5000/api/v1/notes/${id}`, notes)
     } catch(err) {
         console.log(err)
     }
@@ -131,7 +130,7 @@ export async function containsNotes(id: number): Promise<boolean> {
 
 function deleteNote(notes: any, subject: string, day: string, note: string) {
     const index: number = notes[subject][day]?.indexOf(note)
-    if (index != -1 && typeof index === "number") {
+    if (index !== -1 && typeof index === "number") {
         notes[subject][day].splice(index, 1)
     }
     if (!notes[subject][day]?.length) {
@@ -174,17 +173,21 @@ export async function deleteNotes(notes: any, id: number, subject: string, day: 
 
 export async function signup(email: string, password: string) {
     try {
-        const data = await createUserWithEmailAndPassword(auth, email, password)
-    } catch (err) {
-        console.error(err);
+        await createUserWithEmailAndPassword(auth, email, password)
+        return true
+    } catch (err: any) {
+        console.error(err)
+        return err
     }
 }
 
-export async function signin(email: string, password: string) {
+export async function signin(email: string, password: string): Promise<boolean | any> {
     try {
-        const user = await signInWithEmailAndPassword(auth, email, password)
-    } catch (err) {
-        console.error(err);
+        await signInWithEmailAndPassword(auth, email, password)
+        return true
+    } catch (err: any) {
+        console.error(err)
+        return err
     }
 }
 
@@ -194,6 +197,27 @@ export async function logout() {
     } catch (err) {
         console.error(err);
     }
+}
+
+export function errorHandler(err: any) {
+    switch (err.code) {
+        case 'auth/email-already-in-use':
+            return "Email Already In Use"
+        case 'auth/invalid-email':
+            return "Invalid Email"
+        case 'auth/operation-not-allowed':
+            return "Error during sign in"
+        case 'auth/weak-password':
+            return "Weak Password"
+        case 'auth/wrong-password':
+            return 'Incorrect Username or Password'
+        case 'auth/too-many-requests':
+            return 'Too many failed login attempts'
+        case 'auth/user-not-found':
+            return "Email Entered Does not Exist"
+        default:
+            return err.code
+      }
 }
 
 export function decode(str: string) {

@@ -52,12 +52,6 @@
     text-align: center;
 }
 
-.sm-box.fixed {
-    position: fixed !important;
-    top: 50% !important;
-    left: 45% !important;
-}
-
 .modal-background {
     position: fixed;
     top: 0;

@@ -27,10 +27,7 @@ export default function Notes() {
     useEffect(() => {
         (async () => {
             onAuthStateChanged(auth, (user) => {
-                console.log("happens?")
                 if (user) {
-                    console.log("ok, this is definitly happening")
-                    console.log(user.uid)
                     setId(getUserId(user.uid))
                 } else {
                     navigate('/')
@@ -42,8 +39,8 @@ export default function Notes() {
     return (
         <>
             { 
-                (hasNotes === false) && (id === 0 || id) ? <NotEnoughNotes id={id} notes={notes} /> : 
-                (hasNotes === true) && (id === 0 || id) ? <UserNotes id={id} notes={notes} /> : null
+                (hasNotes === false) && (id === 0 || id) && notes ? <NotEnoughNotes id={id} notes={notes} /> : 
+                (hasNotes === true) && (id === 0 || id) && notes ? <UserNotes id={id} notes={notes} /> : null
             }
         </>
     )
