@@ -12,7 +12,7 @@
 
     border-radius: calc(32 / 1440 * 100vw);
 
-    position: absolute;
+    position: fixed;
 
     top: 50%;
     left: 50%;
