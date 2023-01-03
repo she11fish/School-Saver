@@ -14,9 +14,9 @@ div:has(>.bookmark-name) {
 
 .delete-button {
     justify-self: right;
-
-    width: calc(198 / 1440 * 100vw);
-    height: calc(77 / 1440 * 100vw);
+    
+    padding: 0.3em;
+    padding-inline: 1.1em;
     
     outline: 0;
     border: 0;
@@ -30,4 +30,10 @@ div:has(>.bookmark-name) {
     font-size: calc(42 / 1440 * 100vw);
 
     color: white;
+}
+
+.delete-button {
+    padding: 0.3em;
+    padding-inline: 0.7em;
+    font-size: calc(var(--md-font-size) - 0.1em);
 }

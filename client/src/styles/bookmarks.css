@@ -1,5 +1,7 @@
-.text {
-    font-size: calc(128 / 1440 * 100vw);
+.md-text {
+    font-size: calc(var(--lg-font-size) * var(--multiplier));
+    width: 85.42vw;
+    margin: auto;
     text-align: center;
 }
 
@@ -28,8 +30,8 @@
 .add-bookmark {
     position: relative;
 
-    width: calc(361 / 1440 * 100vw);
-    height: calc(136 / 1440 * 100vw);
+
+    padding: 0.75em;
 
     border-radius: var(--sm-radius);
     font-size: var(--md-font-size);
@@ -42,8 +44,8 @@
 
     border: 0;
     margin: 0;
-    margin-top: calc(56 / 1440 * 100vw);
-    margin-bottom: calc(56 / 1440 * 100vw);
+    margin-top: 1.1em;
+    margin-bottom: 1.1em;
 
     background-color: var(--light-blue);
     color: white;
@@ -51,7 +53,6 @@
 
 li:has(.test) {
     position: relative;
-    /* left: 250px; */
 }
 
 .test {

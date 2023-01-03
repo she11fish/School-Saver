@@ -24,7 +24,7 @@ export default function NotEnoughBookmarks({ id }: { id: number }) {
     return (
         <>
             <Navbar />
-            <div className="text">The page feels empty. Want to add more bookmarks?</div>
+            <div className="md-text">The page feels empty. Want to add more bookmarks?</div>
             <button className="add-bookmark" onClick={() => { setAddBookmarks(true); setAddPopUpfocus(true) }}>Add Bookmark</button>
             { addBookmarks && addPopUpfocus && <Bookmark id={id} popUpRef={addPopUpRef}/> }
         </>

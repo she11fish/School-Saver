@@ -1,5 +1,7 @@
-.text {
-    font-size: calc(128 / 1440 * 100vw);
+.md-text {
+    font-size: calc(var(--lg-font-size) * var(--multiplier));
+    width: 85.42vw;
+    margin: auto;
     text-align: center;
 }
 
