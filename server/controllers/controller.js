@@ -39,7 +39,7 @@ export async function createBookmark(req, res) {
 
 export async function createBookmarkById(req, res) {
     let { bookmark, link } = req.body
-
+    console.log(bookmark)
     bookmark = bookmark.split(" ")
     link = Array(link) 
 
