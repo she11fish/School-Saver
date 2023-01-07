@@ -2,7 +2,7 @@ import { useEffect, useRef, useState} from "react";
 import EditPopup from "./EditPopup";
 import AddNote from "./AddNote"
 import WarningPopup from "./WarningPopup";
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../Navbar/NavBar";
 import { deleteNotes } from "../../utils/util";
 import "../../styles/notes.css";
 import "../../styles/user_notes.css";

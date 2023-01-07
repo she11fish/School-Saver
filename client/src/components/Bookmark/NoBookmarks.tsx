@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import Navbar from "../Navbar/Navbar"
+import Navbar from "../Navbar/NavBar"
 import Bookmark from "./AddBookmark"
 import "../../styles/bookmarks.css"
 

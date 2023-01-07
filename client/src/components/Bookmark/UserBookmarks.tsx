@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { BookmarkRow } from "../../interfaces/interface"
 import { deleteBookmark, getUserBookmarks } from "../../utils/util"
-import Navbar from "../Navbar/Navbar"
+import Navbar from "../Navbar/NavBar"
 import AddBookmark from "./AddBookmark"
 import WarningPopup from "./WarningPopup"
 import "../../styles/bookmarks.css";
