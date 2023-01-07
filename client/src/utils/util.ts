@@ -3,9 +3,11 @@ import { BookmarkRow } from "../interfaces/interface";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { auth } from "../firebase-config";
 
+const URL = "https://school-saver-production.up.railway.app"
+
 export async function createBookmark(bookmark: string, link: string) {
     try {
-        await axios.post(`http://localhost:5000/api/v1/bookmarks/`, {
+        await axios.post(`${URL}/api/v1/bookmarks/`, {
             bookmark: bookmark,
             link: link
         })
@@ -16,7 +18,7 @@ export async function createBookmark(bookmark: string, link: string) {
 
 export async function createBookmarkById(id: number, bookmark: string, link: string) {
     try {
-        await axios.post(`http://localhost:5000/api/v1/bookmarks/${id}`, {
+        await axios.post(`${URL}/api/v1/bookmarks/${id}`, {
             bookmark: bookmark,
             link: link
         })
@@ -33,7 +35,7 @@ export async function addBookmark(id:number, bookmark: string, link: string) {
     }
     
     try {
-        await axios.patch(`http://localhost:5000/api/v1/bookmarks/${id}`, {
+        await axios.patch(`${URL}/api/v1/bookmarks/${id}`, {
             bookmark: bookmark,
             link: link
         })
@@ -44,7 +46,7 @@ export async function addBookmark(id:number, bookmark: string, link: string) {
 
 export async function getUserBookmarks(id: number): Promise<BookmarkRow | undefined> {
     try {
-        const response = await axios.get(`http://localhost:5000/api/v1/bookmarks/${id}`)
+        const response = await axios.get(`${URL}/api/v1/bookmarks/${id}`)
         const data = response.data
         if (data.rows.length) 
             return data.rows[0]
@@ -55,7 +57,7 @@ export async function getUserBookmarks(id: number): Promise<BookmarkRow | undefi
 
 export async function containsBookmarks(id: number): Promise<boolean> {
     try {
-        const response = await axios.get(`http://localhost:5000/api/v1/bookmarks/${id}`)
+        const response = await axios.get(`${URL}/api/v1/bookmarks/${id}`)
         const data = response.data
         if (!data.rows.length) {
             return false
@@ -69,7 +71,7 @@ export async function containsBookmarks(id: number): Promise<boolean> {
 
 export async function deleteBookmark(id: number, bookmark: string, link: string) {
     try {
-        await axios.delete(`http://localhost:5000/api/v1/bookmarks/${id}`, {
+        await axios.delete(`${URL}/api/v1/bookmarks/${id}`, {
             data: { 
                 bookmark: bookmark,
                 link: link
@@ -82,7 +84,7 @@ export async function deleteBookmark(id: number, bookmark: string, link: string)
 
 export async function getUserNotes(id: number): Promise<any | undefined> {
     try {
-        const response = await axios.get(`http://localhost:5000/api/v1/notes/${id}`)
+        const response = await axios.get(`${URL}/api/v1/notes/${id}`)
         const data = response.data
         if (data.rows.length) 
             return data.rows[0]["notes"]
@@ -98,7 +100,7 @@ export async function createUserNotes(id: number, subject: string, day: string, 
         day_object[day] = [note]
         notes[subject] = day_object
         console.log(notes)
-        await axios.post(`http://localhost:5000/api/v1/notes/${id}`, notes)
+        await axios.post(`${URL}/api/v1/notes/${id}`, notes)
     } catch(err) {
         console.log(err)
     }
@@ -106,7 +108,7 @@ export async function createUserNotes(id: number, subject: string, day: string, 
 
 export async function updateUserNotes(notes: object, id: number) {
     try {
-        await axios.patch(`http://localhost:5000/api/v1/notes/${id}`, {
+        await axios.patch(`${URL}/api/v1/notes/${id}`, {
             ...notes
         })
     } catch(err) {
@@ -116,7 +118,7 @@ export async function updateUserNotes(notes: object, id: number) {
 
 export async function containsNotes(id: number): Promise<boolean> {
     try {
-        const response = await axios.get(`http://localhost:5000/api/v1/notes/${id}`)
+        const response = await axios.get(`${URL}/api/v1/notes/${id}`)
         const data = response.data
         if (!data.rows.length) {
             return false
@@ -163,7 +165,7 @@ export async function deleteNotes(notes: any, id: number, subject: string, day: 
 
     console.log(notes)
     try {
-        await axios.patch(`http://localhost:5000/api/v1/notes/${id}`, {
+        await axios.patch(`${URL}/api/v1/notes/${id}`, {
             ...notes
         })
     } catch(err) {
@@ -245,7 +247,7 @@ export function getUserId(uid: string) {
 
 export async function generateId(): Promise<number | void> {
     try {
-        const response = await axios("http://localhost:5000/api/v1/bookmarks");
+        const response = await axios("${URL}/api/v1/bookmarks");
         const table = response.data;
         const rows: Array<BookmarkRow> = table.rows;
         const rowSize = table.rowCount
