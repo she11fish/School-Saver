@@ -15,5 +15,5 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1', apiRouter)
 
 app.get('/')
-
+console.log(port)
 app.listen(port);

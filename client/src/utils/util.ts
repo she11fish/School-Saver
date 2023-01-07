@@ -3,7 +3,7 @@ import { BookmarkRow } from "../interfaces/interface";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { auth } from "../firebase-config";
 
-const URL = "https://school-saver-production.up.railway.app"
+const URL = "http://localhost:5000"
 
 export async function createBookmark(bookmark: string, link: string) {
     try {
